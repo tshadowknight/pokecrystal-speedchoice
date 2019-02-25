@@ -10977,10 +10977,8 @@ INCLUDE "engine/unown_puzzle.asm"
 INCLUDE "engine/dummy_game.asm"
 INCLUDE "engine/billspc.asm"
 
-SECTION "bank39", ROMX, BANK[$39]
-
-CopyrightGFX:: ; e4000
-INCBIN "gfx/misc/copyright.2bpp"
+SECTION "bank39", ROMX, BANK[$39] 
+ ; e4000
 
 INCLUDE "engine/options_menu.asm"
 INCLUDE "engine/crystal_intro.asm"
@@ -11644,4 +11642,8 @@ INCLUDE "engine/stat_tracking.asm"
 
 SECTION "statsdisplay", ROMX
 INCLUDE "engine/playthrough_stats_screen.asm"
+
+SECTION "CopyrightGFX", ROMX
+CopyrightGFX::
+INCBIN "gfx/misc/copyright.2bpp"
 
