@@ -166,6 +166,44 @@ EnteredConnection: ; 1046c4
 LoadWarpData: ; 1046c6
 	call .SaveDigWarp
 	call .SetSpawn
+	ld a, [wPermanentOptions2]
+	bit START_AT_ECRUTEAK_F, a
+	jr z, .regularWarp
+
+; warp patches for Ecruteak mode
+; Kris' House Exit
+	ld a, [wNextMapGroup]
+	cp 24 
+	jr nz, .notLeavingHouse
+	ld a, [wNextMapNumber]
+	cp 4 ; NEW_BARK_TOWN 
+	jr nz, .notLeavingHouse
+	ld a, [wNextWarp]
+	cp 2
+	jr nz, .notLeavingHouse
+	ld a, 11
+	ld [wNextWarp], a
+	ld a, 4
+	ld [wNextMapGroup], a
+	ld a, 9 ; ECRUTEAK_CITY
+	ld [wNextMapNumber], a
+	jr .regularWarp	
+.notLeavingHouse:	
+; Item Finder's house entrance
+	ld a, [wNextMapGroup]
+	cp 4 
+	jr nz, .notEnteringItemFinder
+	ld a, [wNextMapNumber]
+	cp 8 ; ECRUTEAK_ITEMFINDER_HOUSE 
+	jr nz, .notEnteringItemFinder
+	ld a, 24
+	ld [wNextMapGroup], a
+	ld a, 6 ; KRISS_HOUSE_1F
+	ld [wNextMapNumber], a
+	jr .regularWarp	
+.notEnteringItemFinder:	
+
+.regularWarp:	
 	ld a, [wNextWarp]
 	ld [WarpNumber], a
 	ld a, [wNextMapGroup]
@@ -173,6 +211,8 @@ LoadWarpData: ; 1046c6
 	ld a, [wNextMapNumber]
 	ld [MapNumber], a
 	ret
+	
+	
 
 .SaveDigWarp: ; 1046df (41:46df)
 	call GetMapPermission
