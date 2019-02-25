@@ -6,6 +6,14 @@ const_value set 2
 	const ECRUTEAKCITY_FISHER
 	const ECRUTEAKCITY_YOUNGSTER
 	const ECRUTEAKCITY_GRAMPS3
+	const ECRUTEAKCITY_BALL1
+	const ECRUTEAKCITY_BALL2
+	const ECRUTEAKCITY_BALL3
+	const ECRUTEAKCITY_BALLGUY
+	const ECRUTEAKCITY_BYSTANDER1
+	const ECRUTEAKCITY_BYSTANDER2
+	const ECRUTEAKCITY_BYSTANDER3
+	const ECRUTEAKCITY_BYSTANDER4
 
 EcruteakCity_MapScriptHeader:
 .MapTriggers:
@@ -91,7 +99,168 @@ EcruteakCityMartSign:
 
 EcruteakCityHiddenHyperPotion:
 	dwb EVENT_ECRUTEAK_CITY_HIDDEN_HYPER_POTION, HYPER_POTION
+	
+	
+WalkToPokeballsTriggerSouth:	
+	checkevent EVENT_ECRUTEAK_START
+	iftrue BallGuyDone
+	spriteface PLAYER, UP
+	showemote EMOTE_SHOCK, ECRUTEAKCITY_BALLGUY, 15	
+	opentext
+	writetext BallGuyIntroText
+	waitbutton
+	closetext
+	applymovement PLAYER, MoveToBalls1
+	jump BallGuyChooseOne
+	
+WalkToPokeballsTriggerNorth:
+	checkevent EVENT_ECRUTEAK_START
+	iftrue BallGuyDone
+	spriteface PLAYER, UP
+	showemote EMOTE_SHOCK, ECRUTEAKCITY_BALLGUY, 15	
+	opentext
+	writetext BallGuyIntroText
+	waitbutton
+	closetext
+	applymovement PLAYER, MoveToBalls2
+	jump BallGuyChooseOne
+	
+BallGuyChooseOne:
+	opentext
+	writetext BallGuyChooseOneText
+	waitbutton
+	closetext
 
+BallGuyDone:	
+	end 
+	
+BallGuyIntroText:
+	text "Young trainer,"
+	line "please step up!"
+	done
+	
+BallGuyChooseOneText:
+	text "You may choose"
+	line "one #MON!"
+	
+	para "Choose wisely!"
+	done
+
+MoveToBalls1:
+	step_up
+	step_up
+	step_right
+	step_right
+	turn_head_up
+	step_end	
+	
+MoveToBalls2:
+	step_up
+	step_right
+	step_right
+	turn_head_up
+	step_end	
+	
+	
+CyndaquilPokeBallScript_Ecruteak:
+	refreshscreen $0
+;Randomizer_StarterCyndaquilOffset1::
+	pokepic CYNDAQUIL
+;Randomizer_StarterCyndaquilOffset2::
+	cry CYNDAQUIL
+	waitbutton
+	closepokepic
+	opentext
+	writetext TakeCyndaquilText_Ecruteak
+	yesorno
+	iffalse DidntChooseStarterScript_Ecruteak
+	disappear ECRUTEAKCITY_BALL1
+	setevent EVENT_GOT_CYNDAQUIL_FROM_ELM
+	writetext ChoseStarterText_Ecruteak
+	buttonsound
+	waitsfx
+;Randomizer_StarterCyndaquilOffset3::
+	pokenamemem CYNDAQUIL, $0
+	writetext ReceivedStarterText_Ecruteak
+	playsound SFX_CAUGHT_MON
+	waitsfx
+	buttonsound
+;Randomizer_StarterCyndaquilOffset4::
+	givepoke CYNDAQUIL, 25, BERRY
+	closetext
+	jump FinishUpStarterSelection
+
+	
+FinishUpStarterSelection:	
+	opentext
+	writetext StarterSelectionFinishedText
+	waitbutton
+	closetext	
+	special Special_FadeBlackQuickly
+	setevent EVENT_ECRUTEAK_START
+	disappear ECRUTEAKCITY_BALL1
+	disappear ECRUTEAKCITY_BALL2
+	disappear ECRUTEAKCITY_BALL3
+	disappear ECRUTEAKCITY_BALLGUY
+	disappear ECRUTEAKCITY_BYSTANDER1
+	disappear ECRUTEAKCITY_BYSTANDER2
+	disappear ECRUTEAKCITY_BYSTANDER3
+	disappear ECRUTEAKCITY_BYSTANDER4
+	special Special_ReloadSpritesNoPalettes	
+	pause 15
+	special Special_FadeInQuickly
+	end
+
+DidntChooseStarterScript_Ecruteak:
+	writetext DidntChooseStarterText_Ecruteak
+	waitbutton
+	closetext
+	end
+	
+DidntChooseStarterText_Ecruteak:
+	text "Think it over"
+	line "carefully."
+
+	para "Your partner is"
+	line "important."
+	done	
+	
+ChoseStarterText_Ecruteak:
+	text "I think that's"
+	line "a great #MON"
+	cont "too!"
+	done	
+	
+ReceivedStarterText_Ecruteak:
+	text "<PLAYER> received"
+	line "@"
+	text_from_ram StringBuffer3
+	text "!"
+	done	
+	
+TakeCyndaquilText_Ecruteak:
+	text "You'll take"
+; Randomizer_StarterCyndaquilTextOffset::
+	line "CYNDAQUIL, the"
+	cont "fire #MON?"
+	done
+	
+StarterSelectionFinishedText:
+	text "I'm sure you"	
+	line "two will make"
+	cont "a great team!"
+	
+	para "Be sure to"
+	line "say hi to"
+	cont "professor ELM"
+	cont "if you ever visit"
+	cont "NEW BARK TOWN."
+	para "He donated these"
+	line "#MON after all!"
+	
+	para "Well, so long!"
+	done
+	
 UnusedMissingDaughterText:
 ; This text is neither used nor referenced in the final game.
 	text "Oh, no. Oh, no…"
@@ -260,6 +429,9 @@ BurnedTowerSignText:
 	para "Please stay away,"
 	line "as it is unsafe."
 	done
+	
+
+		
 
 EcruteakCity_MapEventHeader:
 	; filler
@@ -284,7 +456,9 @@ EcruteakCity_MapEventHeader:
 	warp_def $13, $0, 4, ROUTE_38_ECRUTEAK_GATE
 
 .XYTriggers:
-	db 0
+	db 2
+	xy_trigger $FF, 28, 16, $0, WalkToPokeballsTriggerNorth, $0, $0
+	xy_trigger $FF, 29, 16, $0, WalkToPokeballsTriggerSouth, $0, $0
 
 .Signposts:
 	db 8
@@ -298,7 +472,7 @@ EcruteakCity_MapEventHeader:
 	signpost 14, 23, SIGNPOST_ITEM, EcruteakCityHiddenHyperPotion
 
 .PersonEvents:
-	db 7
+	db 15
 	person_event SPRITE_GRAMPS, 15, 18, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, 0, PERSONTYPE_SCRIPT, 0, GrampsScript_0x1a4009, -1
 	person_event SPRITE_GRAMPS, 21, 20, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, GrampsScript_0x1a400c, -1
 	person_event SPRITE_LASS, 29, 21, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 2, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, LassScript_0x1a4012, -1
@@ -306,3 +480,18 @@ EcruteakCity_MapEventHeader:
 	person_event SPRITE_FISHER, 22, 9, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 1, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, FisherScript_0x1a4029, -1
 	person_event SPRITE_YOUNGSTER, 14, 10, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, YoungsterScript_0x1a403d, -1
 	person_event SPRITE_GRAMPS, 7, 3, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, GrampsScript_0x1a400f, EVENT_ECRUTEAK_CITY_GRAMPS
+
+	person_event SPRITE_POKE_BALL, 26, 17, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, CyndaquilPokeBallScript_Ecruteak, EVENT_ECRUTEAK_START
+	person_event SPRITE_POKE_BALL, 26, 18, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, TotodilePokeBallScript, EVENT_ECRUTEAK_START
+	person_event SPRITE_POKE_BALL, 26, 19, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ChikoritaPokeBallScript, EVENT_ECRUTEAK_START
+
+	person_event SPRITE_FISHER, 25, 18, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ProfElmScript, EVENT_ECRUTEAK_START
+	
+	person_event SPRITE_LASS, 30, 17, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ProfElmScript, EVENT_ECRUTEAK_START
+	person_event SPRITE_GRAMPS, 29, 18, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ProfElmScript, EVENT_ECRUTEAK_START
+	
+	person_event SPRITE_LASS, 28, 11, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ProfElmScript, EVENT_ECRUTEAK_START
+	person_event SPRITE_YOUNGSTER, 29, 12, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ProfElmScript, EVENT_ECRUTEAK_START
+	
+
+	
