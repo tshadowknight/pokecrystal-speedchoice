@@ -153,7 +153,7 @@ OptionsMenuScreens:
 	; permaoptions page 2
 	options_menu 7, PermaOptionsP2String, PermaOptionsP2Pointers, START
 	; permaoptions page 3
-	options_menu 1, PermaOptionsP3String, PermaOptionsP3Pointers, START
+	options_menu 2, PermaOptionsP3String, PermaOptionsP3Pointers, START
 
 GetOptionPointer: ; e42d6
 	ld a, [wOptionsMenuCount]
