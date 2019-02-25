@@ -257,6 +257,8 @@ NormalTinTowerText::
 	db "NORMAL TIN TOWER@"
 EasyTinTowerText::
 	db "EASY TIN TOWER@"
+StartLocationText::
+	db "ECRUTEAK START@"	
 
 PleaseSetOptions::
 	text_jump _PleaseSetOptions
