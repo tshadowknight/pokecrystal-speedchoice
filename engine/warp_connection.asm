@@ -168,9 +168,23 @@ LoadWarpData: ; 1046c6
 	call .SetSpawn
 	ld a, [wPermanentOptions2]
 	bit START_AT_GOLDENROD_F, a
-	jr z, .regularWarp
+	jp z, .regularWarp
 
-; warp patches for Ecruteak mode
+; warp patches for Goldenrod mode
+; Kris' House Entrace
+	ld a, [wNextMapGroup]
+	cp 24 
+	jr nz, .notEnteringHouse
+	ld a, [wNextMapNumber]
+	cp 6 ; KRISS_HOUSE_1F 
+	jr nz, .notEnteringHouse
+	jr nz, .notEnteringHouse	
+	ld a, 11
+	ld [wNextMapGroup], a
+	ld a, 6 ; GOLDENROD_BILLS_HOUSE
+	ld [wNextMapNumber], a
+	jr .regularWarp	
+.notEnteringHouse:	
 ; Kris' House Exit
 	ld a, [wNextMapGroup]
 	cp 24 
@@ -180,28 +194,47 @@ LoadWarpData: ; 1046c6
 	jr nz, .notLeavingHouse
 	ld a, [wNextWarp]
 	cp 2
-	jr nz, .notLeavingHouse
-	ld a, 4
-	ld [wNextWarp], a
+	jr nz, .notLeavingHouse	
 	ld a, 11
 	ld [wNextMapGroup], a
 	ld a, 2 ; GOLDENROD_CITY
 	ld [wNextMapNumber], a
+	ld a, 4
+	ld [wNextWarp], a
 	jr .regularWarp	
 .notLeavingHouse:	
-; Item Finder's house entrance
+; Bill's house entrance
 	ld a, [wNextMapGroup]
 	cp 11 
-	jr nz, .notEnteringItemFinder
+	jr nz, .notEnteringBillsHouse
 	ld a, [wNextMapNumber]
 	cp 6 ; GOLDENROD_BILLS_HOUSE 
-	jr nz, .notEnteringItemFinder
+	jr nz, .notEnteringBillsHouse
 	ld a, 24
 	ld [wNextMapGroup], a
 	ld a, 6 ; KRISS_HOUSE_1F
 	ld [wNextMapNumber], a
 	jr .regularWarp	
-.notEnteringItemFinder:	
+.notEnteringBillsHouse:	
+; Bill's House Exit
+	ld a, [wNextMapGroup]
+	cp 11 
+	jr nz, .notLeavingBillsHouse
+	ld a, [wNextMapNumber]
+	cp 2 ; GOLDENROD_CITY 
+	jr nz, .notLeavingBillsHouse
+	ld a, [wNextWarp]
+	cp 4
+	jr nz, .notLeavingBillsHouse
+	ld a, 24
+	ld [wNextMapGroup], a
+	ld a, 4 ; NEW_BARK_TOWN
+	ld [wNextMapNumber], a	
+	ld a, 2
+	ld [wNextWarp], a
+	jr .regularWarp	
+.notLeavingBillsHouse:
+
 
 .regularWarp:	
 	ld a, [wNextWarp]
