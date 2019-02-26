@@ -2679,9 +2679,6 @@ FlyFunction: ; ca3b
 
 .TryFly: ; ca52
 ; Fly
-	ld de, ENGINE_STORMBADGE
-	call CheckBadge
-	jr c, .nostormbadge
 	call GetMapPermission
 	call CheckOutdoorMap
 	jr z, .outdoors

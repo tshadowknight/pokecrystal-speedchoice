@@ -53,8 +53,13 @@ UnknownScript_0x54c1f:
 	end
 
 BillsMom:
-	faceplayer
+	faceplayer	
 	opentext
+	checkevent EVENT_GOT_FLY_FROM_BILLS_MOM
+	iftrue .regular
+	check_permaoptions START_AT_GOLDENROD
+	iftrue .give_fly	
+.regular:	
 	checkevent EVENT_MET_BILL
 	iffalse UnknownScript_0x54c33
 	writetext UnknownText_0x54ea8
@@ -62,6 +67,14 @@ BillsMom:
 	closetext
 	end
 
+.give_fly:	
+	writetext GiveFlyText
+	verbosegiveitem HM_FLY
+	waitbutton
+	closetext
+	setevent EVENT_GOT_FLY_FROM_BILLS_MOM
+	end
+	
 UnknownScript_0x54c33:
 	writetext UnknownText_0x54f4e
 	waitbutton
@@ -206,6 +219,15 @@ UnknownText_0x54f4e:
 	para "taken after his"
 	line "father."
 	done
+	
+GiveFlyText:
+	text "You came all the"
+	line "way here from"
+	cont "GOLDENROD CITY?"
+	para "Here take this,"
+	line "it should help"
+	cont "you visit home."
+	done	
 
 UnknownText_0x54f9e:
 	text "Are you a trainer?"

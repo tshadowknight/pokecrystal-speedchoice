@@ -149,6 +149,10 @@ RocketlessLoRLanceScript2:
 	clearevent EVENT_GOLDENROD_TRAIN_STATION_GENTLEMAN
 	clearevent EVENT_SAFFRON_TRAIN_STATION_POPULATION
 .skip_boat_and_train
+	check_permaoptions START_AT_GOLDENROD
+	iffalse .regular_start
+	verbosegiveitem HM_FLY
+.regular_start	
 	waitbutton
 	closetext
 	playsound SFX_WARP_TO
