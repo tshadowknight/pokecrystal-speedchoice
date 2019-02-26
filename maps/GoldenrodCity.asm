@@ -436,6 +436,18 @@ FinishUpStarterSelection:
 	disappear GOLDENRODCITY_BALL2
 	disappear GOLDENRODCITY_BALL3
 	disappear GOLDENRODCITY_BALLGUY
+	
+; Goldenrod mode event flags
+	setevent EVENT_GOT_A_POKEMON_FROM_ELM
+	setevent EVENT_ROUTE_30_BATTLE
+	setevent EVENT_ELM_CALLED_ABOUT_STOLEN_POKEMON	
+	setevent EVENT_RIVAL_NEW_BARK_TOWN
+	setevent EVENT_KRISS_HOUSE_1F_NEIGHBOR
+	clearevent EVENT_KRISS_NEIGHBORS_HOUSE_NEIGHBOR
+	setevent EVENT_GOT_MYSTERY_EGG_FROM_MR_POKEMON
+	domaptrigger ELMS_LAB, 5
+	domaptrigger MR_POKEMONS_HOUSE, 1
+	domaptrigger CHERRYGROVE_CITY, 1
 	special Special_ReloadSpritesNoPalettes	
 	pause 15
 	special Special_FadeInQuickly
