@@ -121,6 +121,9 @@ SuperNerdScript_0x7ca7a:
 
 TeacherScript_0x7ca7d:
 	jumptextfaceplayer UndergroundPathSwitchRoomEntrances_TeacherText
+	
+GuardScript:
+	jumptextfaceplayer GuardText
 
 UndergroundSilverTrigger1:
 	spriteface PLAYER, RIGHT
@@ -777,6 +780,11 @@ UndergroundPathSwitchRoomEntrances_TeacherText:
 	line "down there."
 	done
 
+GuardText:
+	text "No entry without"
+	line "#MON!"	
+	done
+	
 GruntM11SeenText:
 	text "Open one shutter,"
 	line "another closes."
@@ -967,7 +975,7 @@ UndergroundPathSwitchRoomEntrances_MapEventHeader:
 	signpost 8, 1, SIGNPOST_ITEM, UndergroundPathSwitchRoomEntrancesHiddenRevive
 
 .PersonEvents:
-	db 11
+	db 13
 	person_event SPRITE_PHARMACIST, 12, 9, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 2, TrainerBurglarDuncan, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
 	person_event SPRITE_PHARMACIST, 8, 4, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 2, TrainerBurglarEddie, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
 	person_event SPRITE_ROCKET, 2, 17, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_TRAINER, 3, TrainerGruntM13, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
@@ -979,3 +987,6 @@ UndergroundPathSwitchRoomEntrances_MapEventHeader:
 	person_event SPRITE_POKE_BALL, 12, 1, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, UndergroundPathSwitchRoomEntrancesSmokeBall, EVENT_UNDERGROUND_PATH_SWITCH_ROOM_ENTRANCES_SMOKE_BALL
 	person_event SPRITE_POKE_BALL, 9, 14, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, UndergroundPathSwitchRoomEntrancesFullHeal, EVENT_UNDERGROUND_PATH_SWITCH_ROOM_ENTRANCES_FULL_HEAL
 	person_event SPRITE_SILVER, 3, 23, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ObjectEvent, EVENT_RIVAL_UNDERGROUND_PATH
+	
+	person_event SPRITE_OFFICER, 26, 4, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, GuardScript, EVENT_GOLDENROD_START
+	person_event SPRITE_OFFICER, 26, 5, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, GuardScript, EVENT_GOLDENROD_START

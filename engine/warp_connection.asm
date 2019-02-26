@@ -167,7 +167,7 @@ LoadWarpData: ; 1046c6
 	call .SaveDigWarp
 	call .SetSpawn
 	ld a, [wPermanentOptions2]
-	bit START_AT_ECRUTEAK_F, a
+	bit START_AT_GOLDENROD_F, a
 	jr z, .regularWarp
 
 ; warp patches for Ecruteak mode
@@ -181,20 +181,20 @@ LoadWarpData: ; 1046c6
 	ld a, [wNextWarp]
 	cp 2
 	jr nz, .notLeavingHouse
-	ld a, 11
-	ld [wNextWarp], a
 	ld a, 4
+	ld [wNextWarp], a
+	ld a, 11
 	ld [wNextMapGroup], a
-	ld a, 9 ; ECRUTEAK_CITY
+	ld a, 2 ; GOLDENROD_CITY
 	ld [wNextMapNumber], a
 	jr .regularWarp	
 .notLeavingHouse:	
 ; Item Finder's house entrance
 	ld a, [wNextMapGroup]
-	cp 4 
+	cp 11 
 	jr nz, .notEnteringItemFinder
 	ld a, [wNextMapNumber]
-	cp 8 ; ECRUTEAK_ITEMFINDER_HOUSE 
+	cp 6 ; GOLDENROD_BILLS_HOUSE 
 	jr nz, .notEnteringItemFinder
 	ld a, 24
 	ld [wNextMapGroup], a

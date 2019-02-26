@@ -405,7 +405,7 @@ INCLUDE "maps/Route31VioletGate.asm"
 SECTION "Map Scripts 19", ROMX, BANK[MAP_SCRIPTS_19]
 
 INCLUDE "maps/AzaleaTown.asm"
-INCLUDE "maps/GoldenrodCity.asm"
+
 INCLUDE "maps/SaffronCity.asm"
 INCLUDE "maps/MahoganyRedGyaradosSpeechHouse.asm"
 INCLUDE "maps/MahoganyGym.asm"
@@ -510,3 +510,4 @@ SECTION "Map Scripts 25", ROMX, BANK[MAP_SCRIPTS_25]
 
 INCLUDE "maps/SilverCaveOutside.asm"
 INCLUDE "maps/Route10North.asm"
+INCLUDE "maps/GoldenrodCity.asm"

@@ -2,7 +2,7 @@ PermaOptionsP3String::
 	db "EASY TIN TOWER<LNBRK>"
 	db "        :<LNBRK>"
 	db "START TOWN<LNBRK>"
-	db "        :<LNBRK>"
+	db "       :<LNBRK>"
 	db "@"
 
 PermaOptionsP3Pointers::
@@ -38,20 +38,20 @@ Options_EcruteakStart:
 	and (1 << D_LEFT_F) | (1 << D_RIGHT_F)
 	ld a, [hl]
 	jr z, .GetText
-	xor (1 << START_AT_ECRUTEAK_F)
+	xor (1 << START_AT_GOLDENROD_F)
 	ld [hl], a
 .GetText
-	bit START_AT_ECRUTEAK_F, a
+	bit START_AT_GOLDENROD_F, a
 	ld de, .Newbark
 	jr z, .Display
 	ld de, .Ecruteak
 .Display
-	hlcoord 11, 5
+	hlcoord 10, 5
 	call PlaceString
 	and a
 	ret
 	
 .Newbark
-	db "NEW BARK@"
+	db "NEW BARK @"
 .Ecruteak
-	db "ECRUTEAK@"
+	db "GOLDENROD@"

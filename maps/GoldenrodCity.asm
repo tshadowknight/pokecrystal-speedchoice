@@ -8,12 +8,12 @@ const_value set 2
 	const GOLDENRODCITY_GRAMPS
 	const GOLDENRODCITY_ROCKET1
 	const GOLDENRODCITY_ROCKET2
-	const GOLDENRODCITY_ROCKET3
-	const GOLDENRODCITY_ROCKET4
 	const GOLDENRODCITY_ROCKET5
-	const GOLDENRODCITY_ROCKET6
-	const GOLDENRODCITY_ROCKET7
 	const GOLDENRODCITY_POKEFAN_M2
+	const GOLDENRODCITY_BALL1
+	const GOLDENRODCITY_BALL2
+	const GOLDENRODCITY_BALL3
+	const GOLDENRODCITY_BALLGUY
 
 GoldenrodCity_MapScriptHeader:
 .MapTriggers:
@@ -277,6 +277,303 @@ GoldenrodCityPokeCenterSign:
 
 GoldenrodCityFlowerShopSign:
 	jumptext GoldenrodCityFlowerShopSignText
+	
+	
+
+BallGuyStart:	
+	
+	
+WalkToPokeballsTrigger:	
+	checkevent EVENT_GOLDENROD_START
+	iftrue BallGuyDone
+	spriteface GOLDENRODCITY_BALLGUY, LEFT
+	showemote EMOTE_SHOCK, GOLDENRODCITY_BALLGUY, 15	
+	opentext
+	writetext BallGuyIntroText
+	waitbutton
+	closetext		
+	applymovement PLAYER, MoveToBalls
+	spriteface GOLDENRODCITY_BALLGUY, DOWN
+	opentext
+	writetext BallGuyChooseOneText
+	waitbutton
+	closetext
+
+BallGuyDone:	
+	end 
+	
+BallGuyIntroText:
+	text "Young trainer,"
+	line "please step up!"
+	done
+	
+BallGuyChooseOneText:
+	text "You may choose"
+	line "one #MON!"
+	
+	para "Choose wisely!"
+	done
+
+MoveToBalls:
+	step_right
+	step_up
+	step_right
+	step_right
+	turn_head_up
+	step_end	
+	
+CyndaquilPokeBallScript_Goldenrod:
+	refreshscreen $0
+;Randomizer_StarterCyndaquilOffset1::
+	pokepic CYNDAQUIL
+;Randomizer_StarterCyndaquilOffset2::
+	cry CYNDAQUIL
+	waitbutton
+	closepokepic
+	opentext
+	writetext TakeCyndaquilText_Goldenrod
+	yesorno
+	iffalse DidntChooseStarterScript_Goldenrod
+	disappear GOLDENRODCITY_BALL1
+	setevent EVENT_GOT_CYNDAQUIL_FROM_ELM
+	writetext ChoseStarterText_Goldenrod
+	buttonsound
+	waitsfx
+;Randomizer_StarterCyndaquilOffset3::
+	pokenamemem CYNDAQUIL, $0
+	writetext ReceivedStarterText_Goldenrod
+	playsound SFX_CAUGHT_MON
+	waitsfx
+	buttonsound
+;Randomizer_StarterCyndaquilOffset4::
+	givepoke CYNDAQUIL, 18, BERRY
+	closetext
+	applymovement GOLDENRODCITY_BALLGUY, BallGuyMove1 
+	jump FinishUpStarterSelection
+
+TotodilePokeBallScript_Goldenrod:
+	refreshscreen $0
+;Randomizer_StarterTotodileOffset1::
+	pokepic TOTODILE
+;Randomizer_StarterTotodileOffset2::
+	cry TOTODILE
+	waitbutton
+	closepokepic
+	opentext
+	writetext TakeTotodileText_Goldenrod
+	yesorno
+	iffalse DidntChooseStarterScript_Goldenrod
+	disappear GOLDENRODCITY_BALL2
+	setevent EVENT_GOT_TOTODILE_FROM_ELM
+	writetext ChoseStarterText_Goldenrod
+	buttonsound
+	waitsfx
+;Randomizer_StarterTotodileOffset3::
+	pokenamemem TOTODILE, $0
+	writetext ReceivedStarterText_Goldenrod
+	playsound SFX_CAUGHT_MON
+	waitsfx
+	buttonsound
+;Randomizer_StarterTotodileOffset4::
+	givepoke TOTODILE, 18, BERRY
+	closetext
+	applymovement GOLDENRODCITY_BALLGUY, BallGuyMove2
+	jump FinishUpStarterSelection	
+	
+ChikoritaPokeBallScript_Goldenrod:
+	refreshscreen $0
+;Randomizer_StarterChikoritaOffset1::
+	pokepic CHIKORITA
+;Randomizer_StarterChikoritaOffset2::
+	cry CHIKORITA
+	waitbutton
+	closepokepic
+	opentext
+	writetext TakeChikoritaText_Goldenrod
+	yesorno
+	iffalse DidntChooseStarterScript_Goldenrod
+	disappear GOLDENRODCITY_BALL3
+	setevent EVENT_GOT_TOTODILE_FROM_ELM
+	writetext ChoseStarterText_Goldenrod
+	buttonsound
+	waitsfx
+;Randomizer_StarterChikoritaOffset3::
+	pokenamemem CHIKORITA, $0
+	writetext ReceivedStarterText_Goldenrod
+	playsound SFX_CAUGHT_MON
+	waitsfx
+	buttonsound
+;Randomizer_StarterChikoritaOffset4::
+	givepoke CHIKORITA, 18, BERRY
+	closetext
+	applymovement GOLDENRODCITY_BALLGUY, BallGuyMove3
+	jump FinishUpStarterSelection		
+	
+FinishUpStarterSelection:		
+	opentext
+	writetext StarterSelectionFinishedText
+	waitbutton	
+	writetext BallGuy_GiveYouBalls
+	buttonsound
+	itemtotext POKE_BALL, $1
+	scall BallGuy_ReceiveTheBalls
+	giveitem POKE_BALL, 5
+	buttonsound
+	itemnotify	
+	writetext BallGuy_GiveYouDex
+	buttonsound
+	waitsfx
+	writetext BallGuy_GetDexText
+	playsound SFX_ITEM
+	waitsfx
+	setflag ENGINE_POKEDEX
+	writetext BallGuyOutroText
+	waitbutton
+	closetext	
+	special Special_FadeBlackQuickly
+	setevent EVENT_GOLDENROD_START
+	disappear GOLDENRODCITY_BALL1
+	disappear GOLDENRODCITY_BALL2
+	disappear GOLDENRODCITY_BALL3
+	disappear GOLDENRODCITY_BALLGUY
+	special Special_ReloadSpritesNoPalettes	
+	pause 15
+	special Special_FadeInQuickly
+	end
+
+BallGuy_ReceiveTheBalls:
+	jumpstd receiveitem
+	end	
+
+DidntChooseStarterScript_Goldenrod:
+	writetext DidntChooseStarterText_Goldenrod
+	waitbutton
+	closetext
+	end
+	
+BallGuyMove1:
+	step_left
+	step_down
+	step_end
+
+BallGuyMove2:
+	step_down
+	step_end
+
+BallGuyMove3:
+	step_right
+	step_down
+	step_end	
+	
+DidntChooseStarterText_Goldenrod:
+	text "Think it over"
+	line "carefully."
+
+	para "Your partner is"
+	line "important."
+	done	
+	
+ChoseStarterText_Goldenrod:
+	text "I think that's"
+	line "a great #MON"
+	cont "too!"
+	done	
+	
+ReceivedStarterText_Goldenrod:
+	text "<PLAYER> received"
+	line "@"
+	text_from_ram StringBuffer3
+	text "!"
+	done	
+	
+TakeCyndaquilText_Goldenrod:
+	text "You'll take"
+; Randomizer_StarterCyndaquilTextOffset::
+	line "CYNDAQUIL, the"
+	cont "fire #MON?"
+	done
+	
+TakeTotodileText_Goldenrod:
+	text "Do you want"
+;Randomizer_StarterTotodileTextOffset::
+	line "TOTODILE, the"
+	cont "water #MON?"
+	done	
+	
+TakeChikoritaText_Goldenrod:
+	text "So, you like"
+;Randomizer_StarterChikoritaTextOffset::
+	line "CHIKORITA, the"
+	cont "grass #MON?"
+	done	
+	
+StarterSelectionFinishedText:
+	text "I'm sure you"	
+	line "two will make"
+	cont "a great team!"
+	done
+
+BallGuy_GiveYouBalls:
+	text "Please take these"
+	line "as well!"
+	done
+	
+BallGuy_GiveYouDex:
+	text "And last but"
+	line "not least!"
+	done	
+	
+BallGuy_GetDexText:
+	text "<PLAYER> received"
+	line "#DEX!"
+	done	
+	
+BallGuyOutroText:	
+	text "Be sure to say"
+	line "hi to professor"
+	cont "ELM if you ever"
+	cont "visit NEW BARK"
+	cont "TOWN."
+	para "He donated these"
+	line "#MON after all!"
+	
+	para "Well, so long!"
+	done
+	
+PreventEscapeText:
+	opentext
+	writetext TheresNoEscapeText
+	waitbutton
+	closetext
+	end
+	
+PreventEscape1:
+	checkevent EVENT_GOLDENROD_START
+	iftrue BallGuyDone
+	scall PreventEscapeText
+	applymovement PLAYER, NoEscapeMovement1
+	end
+	
+PreventEscape2:
+	checkevent EVENT_GOLDENROD_START
+	iftrue BallGuyDone
+	scall PreventEscapeText
+	applymovement PLAYER, NoEscapeMovement2
+	end
+	
+TheresNoEscapeText:
+	text "Trainer, please"
+	line "choose a #MON!"
+	done
+	
+NoEscapeMovement1:
+	step_right
+	step_end	
+	
+NoEscapeMovement2:
+	step_up
+	step_end	
+		
 
 MovementData_0x198a5f:
 	step_right
@@ -583,7 +880,14 @@ GoldenrodCity_MapEventHeader:
 	warp_def $1b, $f, 1, GOLDENROD_POKECENTER_1F
 
 .XYTriggers:
-	db 0
+	db 5
+	xy_trigger $FF, 23, 17, $0, WalkToPokeballsTrigger, $0, $0
+	
+	xy_trigger $FF, 22, 18, $0, PreventEscape1, $0, $0
+	xy_trigger $FF, 23, 19, $0, PreventEscape2, $0, $0
+	xy_trigger $FF, 23, 20, $0, PreventEscape2, $0, $0
+	xy_trigger $FF, 23, 21, $0, PreventEscape2, $0, $0
+	
 
 .Signposts:
 	db 12
@@ -610,10 +914,14 @@ GoldenrodCity_MapEventHeader:
 	person_event SPRITE_LASS, 10, 17, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 2, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, LassScript_0x198a14, EVENT_GOLDENROD_CITY_CIVILIANS
 	person_event SPRITE_GRAMPS, 27, 11, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 1, -1, -1, 0, PERSONTYPE_SCRIPT, 0, GrampsScript_0x198a17, EVENT_GOLDENROD_CITY_CIVILIANS
 	person_event SPRITE_ROCKET, 16, 4, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, RocketScript_0x198a1a, EVENT_GOLDENROD_CITY_ROCKET_SCOUT
-	person_event SPRITE_ROCKET, 20, 28, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, RocketScript_0x198a29, EVENT_GOLDENROD_CITY_ROCKET_TAKEOVER
 	person_event SPRITE_ROCKET, 15, 8, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, RocketScript_0x198a2c, EVENT_GOLDENROD_CITY_ROCKET_TAKEOVER
 	person_event SPRITE_ROCKET, 23, 16, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, RocketScript_0x198a2f, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
-	person_event SPRITE_ROCKET, 20, 29, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, RocketScript_0x198a32, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
-	person_event SPRITE_ROCKET, 7, 29, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, RocketScript_0x198a35, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
-	person_event SPRITE_ROCKET, 10, 31, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, RocketScript_0x198a38, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
+
+	
 	person_event SPRITE_POKEFAN_M, 22, 12, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, MoveTutor, EVENT_GOLDENROD_CITY_MOVE_TUTOR
+	
+	person_event SPRITE_POKE_BALL, 21, 19, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, CyndaquilPokeBallScript_Goldenrod, EVENT_GOLDENROD_START
+	person_event SPRITE_POKE_BALL, 21, 20, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, TotodilePokeBallScript_Goldenrod, EVENT_GOLDENROD_START
+	person_event SPRITE_POKE_BALL, 21, 21, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ChikoritaPokeBallScript_Goldenrod, EVENT_GOLDENROD_START
+
+	person_event SPRITE_POKEFAN_M, 20, 20, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, 0, EVENT_GOLDENROD_START
