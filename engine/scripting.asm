@@ -2643,6 +2643,29 @@ Script_givepoke: ; 97932
 	call GetScriptByte
 	ld [CurPartySpecies], a
 	call GetScriptByte
+;	dirty hack to change starter and kenya levels when playing in Goldenrod mode	
+	ld b, a	
+	ld a, [wPermanentOptions2]
+	bit START_AT_GOLDENROD_F, a
+	jr z, .regular
+	ld a, [MapGroup]
+	cp a, 11
+	jr nz, .notGoldenrod
+	ld a, [MapNumber]
+	cp 2
+	jr nz, .notGoldenrod
+	ld b, 17	
+.notGoldenrod	
+	ld a, [MapGroup]
+	cp a, 10
+	jr nz, .notGoldenrodGate
+	ld a, [MapNumber]
+	cp 14
+	jr nz, .notGoldenrodGate
+	ld b, 17	
+.notGoldenrodGate	
+.regular:
+	ld a, b	
 	ld [CurPartyLevel], a
 	call GetScriptByte
 	ld [CurItem], a
