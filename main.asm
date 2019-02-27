@@ -11643,4 +11643,5 @@ INCLUDE "engine/playthrough_stats_screen.asm"
 SECTION "CopyrightGFX", ROMX
 CopyrightGFX::
 INCBIN "gfx/misc/copyright.2bpp"
+INCLUDE "event/starter_scripts.asm"
 

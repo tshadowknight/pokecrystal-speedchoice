@@ -322,90 +322,33 @@ MoveToBalls:
 	turn_head_up
 	step_end	
 	
+StarterSelectionCancelled:
+	end	
+	
 CyndaquilPokeBallScript_Goldenrod:
-	refreshscreen $0
-;Randomizer_StarterCyndaquilOffset1::
-	pokepic CYNDAQUIL
-;Randomizer_StarterCyndaquilOffset2::
-	cry CYNDAQUIL
-	waitbutton
-	closepokepic
-	opentext
-	writetext TakeCyndaquilText_Goldenrod
-	yesorno
-	iffalse DidntChooseStarterScript_Goldenrod
+	farscall CyndaquilPokeBallScriptCommon
+	checkevent EVENT_GOT_CYNDAQUIL_FROM_ELM
+	iffalse StarterSelectionCancelled 
 	disappear GOLDENRODCITY_BALL1
-	setevent EVENT_GOT_CYNDAQUIL_FROM_ELM
-	writetext ChoseStarterText_Goldenrod
-	buttonsound
-	waitsfx
-;Randomizer_StarterCyndaquilOffset3::
-	pokenamemem CYNDAQUIL, $0
-	writetext ReceivedStarterText_Goldenrod
-	playsound SFX_CAUGHT_MON
-	waitsfx
-	buttonsound
-;Randomizer_StarterCyndaquilOffset4::
-	givepoke CYNDAQUIL, 18, BERRY
-	closetext
+	farscall CyndaquilPokeBallScriptConfirmed
 	applymovement GOLDENRODCITY_BALLGUY, BallGuyMove1 
 	jump FinishUpStarterSelection
-
-TotodilePokeBallScript_Goldenrod:
-	refreshscreen $0
-;Randomizer_StarterTotodileOffset1::
-	pokepic TOTODILE
-;Randomizer_StarterTotodileOffset2::
-	cry TOTODILE
-	waitbutton
-	closepokepic
-	opentext
-	writetext TakeTotodileText_Goldenrod
-	yesorno
-	iffalse DidntChooseStarterScript_Goldenrod
-	disappear GOLDENRODCITY_BALL2
-	setevent EVENT_GOT_TOTODILE_FROM_ELM
-	writetext ChoseStarterText_Goldenrod
-	buttonsound
-	waitsfx
-;Randomizer_StarterTotodileOffset3::
-	pokenamemem TOTODILE, $0
-	writetext ReceivedStarterText_Goldenrod
-	playsound SFX_CAUGHT_MON
-	waitsfx
-	buttonsound
-;Randomizer_StarterTotodileOffset4::
-	givepoke TOTODILE, 18, BERRY
-	closetext
-	applymovement GOLDENRODCITY_BALLGUY, BallGuyMove2
-	jump FinishUpStarterSelection	
 	
+TotodilePokeBallScript_Goldenrod:
+	farscall TotodilePokeBallScriptCommon
+	checkevent EVENT_GOT_TOTODILE_FROM_ELM
+	iffalse StarterSelectionCancelled 
+	disappear GOLDENRODCITY_BALL2
+	farscall TotodilePokeBallScriptConfirmed
+	applymovement GOLDENRODCITY_BALLGUY, BallGuyMove2
+	jump FinishUpStarterSelection
+
 ChikoritaPokeBallScript_Goldenrod:
-	refreshscreen $0
-;Randomizer_StarterChikoritaOffset1::
-	pokepic CHIKORITA
-;Randomizer_StarterChikoritaOffset2::
-	cry CHIKORITA
-	waitbutton
-	closepokepic
-	opentext
-	writetext TakeChikoritaText_Goldenrod
-	yesorno
-	iffalse DidntChooseStarterScript_Goldenrod
+	farscall ChikoritaPokeBallScriptCommon
+	checkevent EVENT_GOT_CHIKORITA_FROM_ELM
+	iffalse StarterSelectionCancelled 
 	disappear GOLDENRODCITY_BALL3
-	setevent EVENT_GOT_TOTODILE_FROM_ELM
-	writetext ChoseStarterText_Goldenrod
-	buttonsound
-	waitsfx
-;Randomizer_StarterChikoritaOffset3::
-	pokenamemem CHIKORITA, $0
-	writetext ReceivedStarterText_Goldenrod
-	playsound SFX_CAUGHT_MON
-	waitsfx
-	buttonsound
-;Randomizer_StarterChikoritaOffset4::
-	givepoke CHIKORITA, 18, BERRY
-	closetext
+	farscall ChikoritaPokeBallScriptConfirmed
 	applymovement GOLDENRODCITY_BALLGUY, BallGuyMove3
 	jump FinishUpStarterSelection		
 	
