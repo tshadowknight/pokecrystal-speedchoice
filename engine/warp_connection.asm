@@ -178,6 +178,8 @@ LoadWarpData: ; 1046c6
 	ld a, [wNextMapNumber]
 	cp 6 ; KRISS_HOUSE_1F 
 	jr nz, .notEnteringHouse
+	ld a, [wNextWarp]
+	cp 1 ; KRISS_HOUSE_1F 
 	jr nz, .notEnteringHouse	
 	ld a, 11
 	ld [wNextMapGroup], a
