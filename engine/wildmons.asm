@@ -331,8 +331,50 @@ endr
 	inc b
 ; Store the level
 .ok
+	ld a, [wPermanentOptions2]
+	bit START_AT_GOLDENROD_F, a
+	jr z, .regular
+; Dirty hack to buff wild levels in Goldenrod mode
+	push hl 
+	ld a, [MapGroup]
+	cp 11
+	jr nz, .notRoute34
+	ld a, [MapNumber]
+	cp 1	
+	jr nz, .notRoute34
+	ld a, b 
+	add 5 
+	ld b, a
+	jr .patched
+.notRoute34	
+	ld a, [MapGroup]
+	cp 10
+	jr nz, .notRoute35
+	ld a, [MapNumber]
+	cp 2
+	jr nz, .notRoute35
+	ld a, b 
+	add 3
+	ld b, a
+	jr .patched
+.notRoute35
+	ld a, [MapGroup]
+	cp 3
+	jr nz, .notRouteNationalPark
+	ld a, [MapNumber]
+	cp 15
+	jr nz, .notRouteNationalPark
+	ld a, b 
+	add 3
+	ld b, a
+.notRouteNationalPark
+.patched
+	pop hl
+	
+.regular	
 	ld a, b
-	ld [CurPartyLevel], a
+	ld [CurPartyLevel], a	
+	
 	ld b, [hl]
 	cp 10
 	jr nc, .notEvolvingMon
