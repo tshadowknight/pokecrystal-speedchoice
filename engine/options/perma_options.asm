@@ -30,6 +30,8 @@ PermaOptionsPresets:
 	dw (2 << RACE_GOAL) , Preset_VanillaName
 	; Bingo
 	dw (1 << ROCKETLESS) | (1 << SPINNERS) | (1 << BETTER_ENC_SLOTS) | (1 << BW_XP) | (1 << BETTER_MARTS) | (1 << EASY_TIN_TOWER), Preset_BingoName
+	; Bingo Goldenrod
+	dw (1 << ROCKETLESS) | (1 << SPINNERS) | (1 << BETTER_ENC_SLOTS) | (1 << BW_XP) | (1 << BETTER_MARTS) | (1 << EASY_TIN_TOWER) | (1 << START_AT_GOLDENROD), Preset_BingoNameGoldenrod
 	; 251
 	dw (1 << ROCKETLESS) | (1 << SPINNERS) | (1 << BETTER_ENC_SLOTS) | (1 << BW_XP) | (1 << BETTER_MARTS) | (2 << RACE_GOAL) | (1 << EASY_TIN_TOWER), Preset_CEAName
 PermaOptionsPresetsEnd:
@@ -38,6 +40,8 @@ Preset_VanillaName:
 	db "VANILLA @"
 Preset_BingoName:
 	db "BINGO   @"
+Preset_BingoNameGoldenrod:
+	db "BINGO(G)@"
 Preset_CEAName:
 	db "251 RACE@"
 
