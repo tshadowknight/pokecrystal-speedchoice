@@ -16,13 +16,22 @@ IlexForest_MapScriptHeader:
 	db 0
 
 .MapCallbacks:
-	db 1
+	db 2
 
 	; callbacks
 
 	dbw MAPCALLBACK_OBJECTS, .FarfetchdCallback
-
+	dbw MAPCALLBACK_TILES, .GoldenrodModeTree
+	
+.GoldenrodModeTree:
+	check_permaoptions START_AT_GOLDENROD
+	iffalse .keepTree
+	changeblock 8, 24, 23
+.keepTree:
+	return	
+	
 .FarfetchdCallback:
+	
 	checkevent EVENT_GOT_HM01_CUT
 	iftrue .Static
 	copybytetovar FarfetchdPosition
