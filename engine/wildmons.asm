@@ -334,6 +334,7 @@ endr
 	ld a, [wPermanentOptions2]
 	bit START_AT_GOLDENROD_F, a
 	jr z, .regular
+	
 ; Dirty hack to buff wild levels in Goldenrod mode
 	push hl 
 	ld a, [MapGroup]
@@ -367,7 +368,29 @@ endr
 	ld a, b 
 	add 3
 	ld b, a
+	jr .patched
 .notRouteNationalPark
+	ld a, [MapGroup]
+	cp 3
+	jr nz, .notIlexForest
+	ld a, [MapNumber]
+	cp 52
+	jr nz, .notIlexForest
+	ld a, b 
+	add 10
+	ld b, a
+	jr .patched
+.notIlexForest
+	ld a, [MapGroup]
+	cp 10
+	jr nz, .notRoute36
+	ld a, [MapNumber]
+	cp 3
+	jr nz, .notRoute36
+	ld a, b 
+	add 12
+	ld b, a
+.notRoute36
 .patched
 	pop hl
 	
