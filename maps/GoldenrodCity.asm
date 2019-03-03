@@ -330,6 +330,8 @@ CyndaquilPokeBallScript_Goldenrod:
 	checkevent EVENT_GOT_CYNDAQUIL_FROM_ELM
 	iffalse StarterSelectionCancelled 
 	disappear GOLDENRODCITY_BALL1
+	setevent EVENT_CYNDAQUIL_POKEBALL_IN_ELMS_LAB
+	setevent EVENT_TOTODILE_POKEBALL_IN_ELMS_LAB
 	farscall CyndaquilPokeBallScriptConfirmed
 	applymovement GOLDENRODCITY_BALLGUY, BallGuyMove1 
 	jump FinishUpStarterSelection
@@ -339,6 +341,8 @@ TotodilePokeBallScript_Goldenrod:
 	checkevent EVENT_GOT_TOTODILE_FROM_ELM
 	iffalse StarterSelectionCancelled 
 	disappear GOLDENRODCITY_BALL2
+	setevent EVENT_TOTODILE_POKEBALL_IN_ELMS_LAB
+	setevent EVENT_CHIKORITA_POKEBALL_IN_ELMS_LAB
 	farscall TotodilePokeBallScriptConfirmed
 	applymovement GOLDENRODCITY_BALLGUY, BallGuyMove2
 	jump FinishUpStarterSelection
@@ -348,6 +352,8 @@ ChikoritaPokeBallScript_Goldenrod:
 	checkevent EVENT_GOT_CHIKORITA_FROM_ELM
 	iffalse StarterSelectionCancelled 
 	disappear GOLDENRODCITY_BALL3
+	setevent EVENT_CHIKORITA_POKEBALL_IN_ELMS_LAB
+	setevent EVENT_CYNDAQUIL_POKEBALL_IN_ELMS_LAB
 	farscall ChikoritaPokeBallScriptConfirmed
 	applymovement GOLDENRODCITY_BALLGUY, BallGuyMove3
 	jump FinishUpStarterSelection		
@@ -381,16 +387,37 @@ FinishUpStarterSelection:
 	disappear GOLDENRODCITY_BALLGUY
 	
 ; Goldenrod mode event flags
+	; NEW BARK flypoint
+	setflag ENGINE_FLYPOINT_NEW_BARK
+	; early game events
+	setevent EVENT_TALKED_TO_MOM_AFTER_MYSTERY_EGG_QUEST
 	setevent EVENT_GOT_A_POKEMON_FROM_ELM
+	setevent EVENT_GAVE_MYSTERY_EGG_TO_ELM
 	setevent EVENT_ROUTE_30_BATTLE
+	clearevent EVENT_ROUTE_30_YOUNGSTER_JOEY
 	setevent EVENT_ELM_CALLED_ABOUT_STOLEN_POKEMON	
 	setevent EVENT_RIVAL_NEW_BARK_TOWN
 	setevent EVENT_KRISS_HOUSE_1F_NEIGHBOR
 	clearevent EVENT_KRISS_NEIGHBORS_HOUSE_NEIGHBOR
 	setevent EVENT_GOT_MYSTERY_EGG_FROM_MR_POKEMON
-	domaptrigger ELMS_LAB, 5
+	setevent EVENT_MR_POKEMONS_HOUSE_OAK
+	domaptrigger ELMS_LAB, 7
 	domaptrigger MR_POKEMONS_HOUSE, 1
 	domaptrigger CHERRYGROVE_CITY, 1
+	domaptrigger NEW_BARK_TOWN, 1
+	
+	; Azalea Town, disable rockets, enable Farfetch'd
+	setevent EVENT_AZALEA_TOWN_SLOWPOKETAIL_ROCKET
+	setevent EVENT_SLOWPOKE_WELL_ROCKETS
+	setevent EVENT_CLEARED_SLOWPOKE_WELL
+	setevent EVENT_SLOWPOKE_WELL_KURT
+	clearevent EVENT_ILEX_FOREST_APPRENTICE
+	clearevent EVENT_ILEX_FOREST_FARFETCHD
+	setevent EVENT_CHARCOAL_KILN_FARFETCH_D
+	setevent EVENT_CHARCOAL_KILN_APPRENTICE
+	setevent EVENT_SLOWPOKE_WELL_SLOWPOKES
+	clearevent EVENT_AZALEA_TOWN_SLOWPOKES
+	clearevent EVENT_KURTS_HOUSE_SLOWPOKE
 	special Special_ReloadSpritesNoPalettes	
 	pause 15
 	special Special_FadeInQuickly
