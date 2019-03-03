@@ -52,6 +52,7 @@ ElmsLab_MapScriptHeader:
 	return
 
 ElmsLab_AutowalkUpToElm:
+	setevent EVENT_GOLDENROD_START
 	applymovement PLAYER, ElmsLab_WalkUpToElmMovement
 	showemote EMOTE_SHOCK, ELMSLAB_ELM, 15
 	spriteface ELMSLAB_ELM, RIGHT
