@@ -35,6 +35,12 @@ BugsyScript:
 	checkcode VAR_BADGES
 	scall AzaleaGymTriggerRockets
 .FightDone
+	; make Bugsy enable rival for Goldenrod mode
+	check_permaoptions START_AT_GOLDENROD
+	iffalse .normal
+	variablesprite SPRITE_AZALEA_ROCKET, SPRITE_SILVER
+	domaptrigger AZALEA_TOWN, $1
+.normal	
 	checkevent EVENT_GOT_TM49_FURY_CUTTER
 	iftrue .GotFuryCutter
 	setevent EVENT_BEAT_TWINS_AMY_AND_MAY
