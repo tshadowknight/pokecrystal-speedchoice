@@ -71,29 +71,8 @@ Route35NationalParkgate_Trigger3:
 
 Route35NationalParkgate_CheckIfStillInContest:
 	checkevent EVENT_INITIALIZED_EVENTS
-	iftrue .SkipInizialization
-	
+	iftrue .SkipInizialization	
 	jumpstd initializeevents
-	
-	; NEW BARK flypoint
-	setflag ENGINE_FLYPOINT_NEW_BARK
-	; early game events
-	setevent EVENT_TALKED_TO_MOM_AFTER_MYSTERY_EGG_QUEST
-	setevent EVENT_GOT_A_POKEMON_FROM_ELM
-	setevent EVENT_GAVE_MYSTERY_EGG_TO_ELM
-	setevent EVENT_ROUTE_30_BATTLE
-	clearevent EVENT_ROUTE_30_YOUNGSTER_JOEY
-	setevent EVENT_ELM_CALLED_ABOUT_STOLEN_POKEMON	
-	setevent EVENT_RIVAL_NEW_BARK_TOWN
-	setevent EVENT_KRISS_HOUSE_1F_NEIGHBOR
-	clearevent EVENT_KRISS_NEIGHBORS_HOUSE_NEIGHBOR
-	setevent EVENT_GOT_MYSTERY_EGG_FROM_MR_POKEMON
-	setevent EVENT_MR_POKEMONS_HOUSE_OAK
-	domaptrigger ELMS_LAB, 7
-	domaptrigger MR_POKEMONS_HOUSE, 1
-	domaptrigger CHERRYGROVE_CITY, 1
-	domaptrigger NEW_BARK_TOWN, 1
-	
 .SkipInizialization	
 	checkflag ENGINE_BUG_CONTEST_TIMER
 	iftrue Route35NationalParkgate_Yes
