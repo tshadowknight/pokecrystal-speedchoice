@@ -11,6 +11,8 @@ const_value set 2
 	const ROUTE36NATIONALPARKGATE_YOUNGSTER6
 	const ROUTE36NATIONALPARKGATE_YOUNGSTER7
 	const ROUTE36NATIONALPARKGATE_OFFICER2
+	const ROUTE36NATIONALPARKGATE_OFFICER3
+	const ROUTE36NATIONALPARKGATE_OFFICER4
 
 Route36NationalParkgate_MapScriptHeader:
 .MapTriggers:
@@ -53,10 +55,7 @@ Route36NationalParkgate_MapScriptHeader:
 .CheckIfContestAvailable:
 	checkevent EVENT_WARPED_FROM_ROUTE_35_NATIONAL_PARK_GATE
 	iftrue .Return
-	checkcode VAR_WEEKDAY
-	if_equal TUESDAY, .SetContestOfficer
-	if_equal THURSDAY, .SetContestOfficer
-	if_equal SATURDAY, .SetContestOfficer
+	jump .SetContestOfficer
 	checkflag ENGINE_BUG_CONTEST_TIMER
 	iftrue .SetContestOfficer
 	disappear ROUTE36NATIONALPARKGATE_OFFICER1
@@ -147,11 +146,6 @@ Route36NationalParkgate_MapScriptHeader:
 	end
 
 Route36OfficerScriptContest:
-	checkcode VAR_WEEKDAY
-	if_equal SUNDAY, _ContestNotOn
-	if_equal MONDAY, _ContestNotOn
-	if_equal WEDNESDAY, _ContestNotOn
-	if_equal FRIDAY, _ContestNotOn
 	faceplayer
 	opentext
 	checkflag ENGINE_DAILY_BUG_CONTEST
@@ -310,6 +304,9 @@ OfficerScript_0x6acf4:
 Route36Parkgate_DayToText:
 	jumpstd daytotext
 	end
+	
+GuardScript36:
+	jumptextfaceplayer GuardText36	
 
 YoungsterScript_0x6ad06:
 	faceplayer
@@ -801,6 +798,13 @@ UnknownText_0x6b7af:
 	para "not good enough to"
 	line "win."
 	done
+	
+GuardText36:
+	text "No #MON? Way"
+	line "too suspicious!"
+	cont "You can't go"
+	cont "through!"
+	done
 
 ; This text is unused and unreferenced in the final game.
 ; The tree Pokémon is Sudowoodo.
@@ -888,3 +892,5 @@ Route36NationalParkgate_MapEventHeader:
 	person_event SPRITE_YOUNGSTER, 7, 6, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, YoungsterScript_0x6ada6, EVENT_BUG_CATCHING_CONTESTANT_9B
 	person_event SPRITE_YOUNGSTER, 6, 6, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, YoungsterScript_0x6adba, EVENT_BUG_CATCHING_CONTESTANT_10B
 	person_event SPRITE_OFFICER, 2, 3, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, OfficerScript_0x6acf4, EVENT_ROUTE_36_NATIONAL_PARK_GATE_OFFICER_NOT_CONTEST_DAY
+	;person_event SPRITE_OFFICER, 4, 9, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, GuardScript36, EVENT_COMPLETED_STARTING_CONTEST
+	;person_event SPRITE_OFFICER, 5, 9, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, GuardScript36, EVENT_COMPLETED_STARTING_CONTEST

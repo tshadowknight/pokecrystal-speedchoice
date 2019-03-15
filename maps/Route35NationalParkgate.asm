@@ -2,6 +2,8 @@ const_value set 2
 	const ROUTE35NATIONALPARKGATE_OFFICER1
 	const ROUTE35NATIONALPARKGATE_YOUNGSTER
 	const ROUTE35NATIONALPARKGATE_OFFICER2
+	const ROUTE35NATIONALPARKGATE_OFFICER3
+	const ROUTE35NATIONALPARKGATE_OFFICER4
 
 Route35NationalParkgate_MapScriptHeader:
 .MapTriggers:
@@ -22,7 +24,43 @@ Route35NationalParkgate_MapScriptHeader:
 	dbw MAPCALLBACK_OBJECTS, Route35NationalParkgate_CheckIfContestDay
 
 Route35NationalParkgate_Trigger1:
+	checkevent EVENT_TRASH_DISCOVERY
+	iftrue .done
+	opentext
+	writetext TrashText
+	waitbutton
+	pokenamemem MAGIKARP, 0
+	writetext ReceivedStarterTextContent
+	playsound SFX_CAUGHT_MON
+	waitsfx
+	buttonsound	
+	givepoke MAGIKARP, 5, SMOKE_BALL
+	writetext GetDexText
+	playsound SFX_ITEM
+	waitsfx
+	setflag ENGINE_POKEDEX
+	waitbutton
+	closetext
+	setevent EVENT_TRASH_DISCOVERY
+.done	
 	end
+	
+TrashText:
+	text "<PLAYER> found"
+	line "some trash!"
+	done
+	
+GetDexText:
+	text "<PLAYER> received"
+	line "#DEX!"
+	done	
+
+ReceivedStarterTextContent:
+	text "<PLAYER> received"
+	line "@"
+	text_from_ram StringBuffer3
+	text "!"
+	done	
 
 Route35NationalParkgate_Trigger2:
 	end
@@ -32,6 +70,31 @@ Route35NationalParkgate_Trigger3:
 	end
 
 Route35NationalParkgate_CheckIfStillInContest:
+	checkevent EVENT_INITIALIZED_EVENTS
+	iftrue .SkipInizialization
+	
+	jumpstd initializeevents
+	
+	; NEW BARK flypoint
+	setflag ENGINE_FLYPOINT_NEW_BARK
+	; early game events
+	setevent EVENT_TALKED_TO_MOM_AFTER_MYSTERY_EGG_QUEST
+	setevent EVENT_GOT_A_POKEMON_FROM_ELM
+	setevent EVENT_GAVE_MYSTERY_EGG_TO_ELM
+	setevent EVENT_ROUTE_30_BATTLE
+	clearevent EVENT_ROUTE_30_YOUNGSTER_JOEY
+	setevent EVENT_ELM_CALLED_ABOUT_STOLEN_POKEMON	
+	setevent EVENT_RIVAL_NEW_BARK_TOWN
+	setevent EVENT_KRISS_HOUSE_1F_NEIGHBOR
+	clearevent EVENT_KRISS_NEIGHBORS_HOUSE_NEIGHBOR
+	setevent EVENT_GOT_MYSTERY_EGG_FROM_MR_POKEMON
+	setevent EVENT_MR_POKEMONS_HOUSE_OAK
+	domaptrigger ELMS_LAB, 7
+	domaptrigger MR_POKEMONS_HOUSE, 1
+	domaptrigger CHERRYGROVE_CITY, 1
+	domaptrigger NEW_BARK_TOWN, 1
+	
+.SkipInizialization	
 	checkflag ENGINE_BUG_CONTEST_TIMER
 	iftrue Route35NationalParkgate_Yes
 	dotrigger $0
@@ -42,10 +105,7 @@ Route35NationalParkgate_Yes:
 	return
 
 Route35NationalParkgate_CheckIfContestDay:
-	checkcode VAR_WEEKDAY
-	if_equal TUESDAY, Route35NationalParkgate_IsContestDay
-	if_equal THURSDAY, Route35NationalParkgate_IsContestDay
-	if_equal SATURDAY, Route35NationalParkgate_IsContestDay
+	jump Route35NationalParkgate_IsContestDay
 	checkflag ENGINE_BUG_CONTEST_TIMER
 	iftrue Route35NationalParkgate_Yes
 	disappear ROUTE35NATIONALPARKGATE_OFFICER1
@@ -86,11 +146,6 @@ Route35NationalParkgate_GoBackIn:
 	end
 
 OfficerScript_0x6a204:
-	checkcode VAR_WEEKDAY
-	if_equal SUNDAY, Route35NationalParkgate_NoContestToday
-	if_equal MONDAY, Route35NationalParkgate_NoContestToday
-	if_equal WEDNESDAY, Route35NationalParkgate_NoContestToday
-	if_equal FRIDAY, Route35NationalParkgate_NoContestToday
 	faceplayer
 	opentext
 	checkflag ENGINE_DAILY_BUG_CONTEST
@@ -204,6 +259,9 @@ OfficerScript_0x6a2ca:
 	waitbutton
 	closetext
 	end
+	
+GuardScript:
+	jumptextfaceplayer GuardText	
 
 YoungsterScript_0x6a2d8:
 	jumptextfaceplayer UnknownText_0x6a8d8
@@ -422,6 +480,13 @@ UnknownText_0x6a8d8:
 	line "Bug-Catching Con-"
 	cont "test going to be?"
 	done
+	
+GuardText:
+	text "No #MON? Way"
+	line "too suspicious!"
+	cont "You can't go"
+	cont "through!"
+	done
 
 UnknownText_0x6a90e:
 	text "The Bug-Catching"
@@ -466,3 +531,5 @@ Route35NationalParkgate_MapEventHeader:
 	person_event SPRITE_OFFICER, 1, 2, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, OfficerScript_0x6a204, EVENT_ROUTE_35_NATIONAL_PARK_GATE_OFFICER_CONTEST_DAY
 	person_event SPRITE_YOUNGSTER, 5, 6, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, YoungsterScript_0x6a2d8, EVENT_ROUTE_35_NATIONAL_PARK_GATE_YOUNGSTER
 	person_event SPRITE_OFFICER, 3, 0, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, OfficerScript_0x6a2ca, EVENT_ROUTE_35_NATIONAL_PARK_GATE_OFFICER_NOT_CONTEST_DAY
+	;person_event SPRITE_OFFICER, 7, 3, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, GuardScript, EVENT_COMPLETED_STARTING_CONTEST
+	;person_event SPRITE_OFFICER, 7, 4, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, GuardScript, EVENT_COMPLETED_STARTING_CONTEST
