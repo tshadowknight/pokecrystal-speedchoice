@@ -252,6 +252,8 @@ ParkBall: ; e8a2
 	ld a, [CurItem]
 	cp MASTER_BALL
 	jp z, .catch_without_fail
+	cp PARK_BALL
+	jp z, .catch_without_fail
 	ld a, [CurItem]
 	ld c, a
 	ld hl, BallMultiplierFunctionTable
