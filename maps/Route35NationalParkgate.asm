@@ -35,6 +35,12 @@ Route35NationalParkgate_Trigger1:
 	waitsfx
 	buttonsound	
 	givepoke MAGIKARP, 5, SMOKE_BALL
+	waitsfx
+	buttonsound
+	itemtotext POKE_BALL, $1
+	scall ReceiveTheBalls
+	giveitem POKE_BALL, 10
+	buttonsound
 	writetext GetDexText
 	playsound SFX_ITEM
 	waitsfx
@@ -44,6 +50,10 @@ Route35NationalParkgate_Trigger1:
 	setevent EVENT_TRASH_DISCOVERY
 .done	
 	end
+	
+ReceiveTheBalls:
+	jumpstd receiveitem
+	end		
 	
 TrashText:
 	text "<PLAYER> found"
