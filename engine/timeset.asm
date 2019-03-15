@@ -110,11 +110,13 @@ InitClock: ; 90672 (24:4672)
 
 .MinutesAreSet
 	call SetTimeOfDay
+	call Special_SetDayOfWeek
 	ld hl, OakText_ResponseToSetTime
 	call PrintText
 	call WaitPressAorB_BlinkCursor
 	pop af
 	ld [hInMenu], a
+	
 	ret
 
 .ClearScreen: ; 90783 (24:4783)
