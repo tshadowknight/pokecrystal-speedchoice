@@ -327,29 +327,29 @@
 	map NATIONAL_PARK
 	db 10 percent, 10 percent, 10 percent ; encounter rates: morn/day/nite
 	; morn
-	db 12, NIDORAN_M
-	db 12, NIDORAN_F
-	db 14, LEDYBA
-	db 13, PIDGEY
-	db 10, CATERPIE
-	db 10, WEEDLE
-	db 10, WEEDLE
+	db 15, NIDORAN_M
+	db 15, NIDORAN_F
+	db 16, LEDYBA
+	db 17, PIDGEY
+	db 17, CATERPIE
+	db 15, WEEDLE
+	db 15, WEEDLE
 	; day
-	db 12, NIDORAN_F
-	db 12, NIDORAN_M
-	db 14, SUNKERN
-	db 13, PIDGEY
-	db 10, CATERPIE
-	db 10, WEEDLE
-	db 10, WEEDLE
+	db 15, NIDORAN_F
+	db 15, NIDORAN_M
+	db 16, SUNKERN
+	db 17, PIDGEY
+	db 17, CATERPIE
+	db 15, WEEDLE
+	db 15, WEEDLE
 	; nite
-	db 12, PSYDUCK
-	db 13, HOOTHOOT
-	db 14, SPINARAK
+	db 15, PSYDUCK
 	db 15, HOOTHOOT
-	db 10, VENONAT
-	db 12, VENONAT
-	db 12, VENONAT
+	db 16, SPINARAK
+	db 17, HOOTHOOT
+	db 17, VENONAT
+	db 15, VENONAT
+	db 15, VENONAT
 
 	map RUINS_OF_ALPH_OUTSIDE
 	db 4 percent, 4 percent, 4 percent ; encounter rates: morn/day/nite
