@@ -7,7 +7,7 @@ spawn: MACRO
 	db \2, \3
 ENDM
 
-	spawn KRISS_HOUSE_2F,              3,  3
+	spawn ROUTE_35_NATIONAL_PARK_GATE, 5,  5
 	spawn VIRIDIAN_POKECENTER_1F,      5,  3
 
 	spawn PALLET_TOWN,                 5,  6
