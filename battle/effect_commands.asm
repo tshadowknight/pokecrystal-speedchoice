@@ -742,6 +742,11 @@ BattleCommand_CheckObedience: ; 343db
 	bit FOGBADGE, [hl]
 	ld a, 50
 	jr nz, .getlevel
+	
+	; plainbadge
+	bit PLAINBADGE, [hl]
+	ld a, 30
+	jr nz, .getlevel
 
 	; hivebadge
 	bit HIVEBADGE, [hl]
