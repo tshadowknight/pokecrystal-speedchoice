@@ -253,7 +253,17 @@ ParkBall: ; e8a2
 	cp MASTER_BALL
 	jp z, .catch_without_fail
 	cp PARK_BALL
-	jp z, .catch_without_fail
+	jr nz, .regular_ball
+	; check if we're in the national park (contest)
+	ld a, [MapGroup]
+	cp 3
+	jr nz, .regular_ball
+	ld a, [MapNumber]
+	cp 16
+	jr nz, .regular_ball
+	jp .catch_without_fail
+	
+.regular_ball	
 	ld a, [CurItem]
 	ld c, a
 	ld hl, BallMultiplierFunctionTable
