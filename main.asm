@@ -5609,7 +5609,7 @@ Function24b8f: ; 24b8f
 
 StartMenu_DrawBugContestStatusBox: ; 24bdc
 	hlcoord 0, 0
-	ld b, 5
+	ld b, 11
 	ld c, 17
 	call TextBox
 	ret
@@ -5620,10 +5620,10 @@ StartMenu_PrintBugContestStatus: ; 24be7
 	push af
 	set NO_TEXT_SCROLL, [hl]
 	call StartMenu_DrawBugContestStatusBox
-	hlcoord 1, 5
+	hlcoord 1, 4
 	ld de, .Balls_EN
 	call PlaceString
-	hlcoord 8, 5
+	hlcoord 8, 4
 	ld de, wParkBallsRemaining
 	lb bc, PRINTNUM_RIGHTALIGN | 1, 2
 	call PrintNum
@@ -5652,6 +5652,50 @@ StartMenu_PrintBugContestStatus: ; 24be7
 	inc hl
 	ld c, $3
 	call Function3842
+	
+	ld a, [wContestMonMoves]
+	and a 
+	jr z, .moves_done
+	ld [wd265], a	
+	call GetMoveName	
+	hlcoord 1, 6
+	call PlaceString
+	
+	ld a, [wContestMonMoves+1]
+	and a 
+	jr z, .moves_done
+	ld [wd265], a
+	call GetMoveName	
+	hlcoord 1, 7
+	call PlaceString
+	
+	ld a, [wContestMonMoves+2]
+	and a 
+	jr z, .moves_done
+	ld [wd265], a
+	call GetMoveName	
+	hlcoord 1, 8
+	call PlaceString
+	
+	ld a, [wContestMonMoves+3]
+	and a 
+	jr z, .moves_done
+	ld [wd265], a
+	call GetMoveName	
+	hlcoord 1, 9
+	call PlaceString
+
+.moves_done	
+
+	ld a, [wContestMonItem]
+	and a 
+	jr z, .no_item
+	ld [wd265], a
+	call GetItemName	
+	hlcoord 1, 11
+	call PlaceString
+
+.no_item
 
 .skip_level
 	pop af
@@ -10690,46 +10734,16 @@ DisplayCaughtContestMonStats: ; cc000
 	set 4, [hl]
 
 	hlcoord 0, 0
-	ld b, 4
-	ld c, 13
-	call TextBox
-
-	hlcoord 0, 6
-	ld b, 4
+	ld b, 10
 	ld c, 13
 	call TextBox
 
 	hlcoord 2, 0
-	ld de, .Stock
-	call PlaceString
-
-	hlcoord 2, 6
 	ld de, .This
 	call PlaceString
 
-	hlcoord 5, 4
-	ld de, .Health
-	call PlaceString
-
-	hlcoord 5, 10
-	ld de, .Health
-	call PlaceString
-
-	ld a, [wContestMon]
-	ld [wd265], a
-	call GetPokemonName
-	ld de, StringBuffer1
-	hlcoord 1, 2
-	call PlaceString
-
-	ld h, b
-	ld l, c
-	ld a, [wContestMonLevel]
-	ld [TempMonLevel], a
-	call PrintLevel
-
 	ld de, EnemyMonNick
-	hlcoord 1, 8
+	hlcoord 1, 2
 	call PlaceString
 
 	ld h, b
@@ -10738,17 +10752,52 @@ DisplayCaughtContestMonStats: ; cc000
 	ld [TempMonLevel], a
 	call PrintLevel
 
-	hlcoord 11, 4
-	ld de, wContestMonMaxHP
-	lb bc, 2, 3
-	call PrintNum
-
-	hlcoord 11, 10
-	ld de, EnemyMonMaxHP
-	call PrintNum
-
 	ld hl, SwitchMonText
 	call PrintText
+	
+	ld a, [EnemyMonMoves]
+	and a 
+	jr z, .moves_done
+	ld [wd265], a	
+	call GetMoveName	
+	hlcoord 1, 4
+	call PlaceString
+	
+	ld a, [EnemyMonMoves+1]
+	and a 
+	jr z, .moves_done
+	ld [wd265], a
+	call GetMoveName	
+	hlcoord 1, 5
+	call PlaceString
+	
+	ld a, [EnemyMonMoves+2]
+	and a 
+	jr z, .moves_done
+	ld [wd265], a
+	call GetMoveName	
+	hlcoord 1, 6
+	call PlaceString
+	
+	ld a, [EnemyMonMoves+3]
+	and a 
+	jr z, .moves_done
+	ld [wd265], a
+	call GetMoveName	
+	hlcoord 1, 7
+	call PlaceString
+
+.moves_done	
+
+	ld a, [EnemyMonItem]
+	and a 
+	jr z, .no_item
+	ld [wd265], a
+	call GetItemName	
+	hlcoord 1, 9
+	call PlaceString
+
+.no_item
 
 	pop af
 	ld [Options], a
